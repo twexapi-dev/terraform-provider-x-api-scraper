@@ -1,0 +1,14 @@
+terraform-provider-x-api-scraper
+dist/
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+.DS_Store
+.env
+.env.local
+**/.speakeasy/temp/
+**/.speakeasy/logs/
+.speakeasy/reports
+.speakeasy/out.openapi.yaml
