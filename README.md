@@ -1,7 +1,7 @@
 # TwexAPI Terraform Provider: Twitter API for search, followers, DMs & X automation
 
-Use the TwexAPI Terraform provider to read X profiles and tweets, follow accounts, and post, like, retweet, or bookmark.
-It wraps the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go). Search, timelines, DMs, communities, and other reads stay on the REST API or language SDKs.
+Use the TwexAPI Terraform provider to read X profiles and tweets, follow accounts, send DMs, and post, like, retweet, or bookmark.
+It wraps the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go). Search, timelines, communities, and other reads stay on the REST API or language SDKs.
 
 [REST API](https://docs.twexapi.io) | [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go) | [TypeScript SDK](https://github.com/twexapi-dev/x-api-scraper-typescript) | [Dashboard](https://twexapi.io/dashboard)
 
@@ -17,6 +17,7 @@ This provider is a thin Terraform Plugin Framework wrapper over the Go SDK, the 
 | Follow an account               | `POST /twitter/user/follow`         | `x-api-scraper_follow`                             |
 | Post or reply                   | `POST /twitter/tweets/create`       | `x-api-scraper_tweet`                              |
 | Like / retweet / bookmark       | tweet action routes                 | `x-api-scraper_like`, `_retweet`, `_bookmark`      |
+| Send a DM                       | `POST /v3/twitter/send-dm`          | `x-api-scraper_dm`                                 |
 | Search tweets without the X API | `POST /twitter/advanced_search/page` | Use the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go) |
 
 ## Package & registry trust
@@ -120,5 +121,17 @@ resource "x-api-scraper_like" "example" {
 ```
 
 Destroy reverses the action.
+
+## Send a DM
+
+```hcl
+resource "x-api-scraper_dm" "hello" {
+  recipient = "elonmusk"
+  text      = "hello from Terraform"
+  cookie    = var.twitter_cookie
+}
+```
+
+Destroy removes Terraform state only. The API cannot unsend a DM.
 
 Not affiliated with X Corp.

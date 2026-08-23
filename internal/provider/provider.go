@@ -82,6 +82,7 @@ func (p *XapiScraperProvider) Resources(_ context.Context) []func() resource.Res
 		NewLikeResource,
 		NewRetweetResource,
 		NewBookmarkResource,
+		NewDmResource,
 	}
 }
 

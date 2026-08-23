@@ -1,11 +1,11 @@
 ---
 page_title: "TwexAPI Provider"
-description: Terraform provider for TwexAPI Twitter search, followers, DMs, and X automation.
+description: Use Terraform to read X profiles and tweets, follow accounts, send DMs, and post, like, retweet, or bookmark.
 ---
 
 # TwexAPI Provider
 
-Manage TwexAPI reads and writes as Terraform data sources and resources. It wraps the Go SDK. Search and pagination stay on the language SDKs.
+Use Terraform to read X profiles and tweets, follow accounts, send DMs, and post, like, retweet, or bookmark. Search and pagination stay on the language SDKs.
 
 ## Example Usage
 
