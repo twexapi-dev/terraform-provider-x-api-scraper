@@ -17,12 +17,16 @@ type userAboutDataSource struct {
 }
 
 type userAboutModel struct {
-	ScreenName     types.String `tfsdk:"screen_name"`
-	UserID         types.String `tfsdk:"user_id"`
-	Name           types.String `tfsdk:"name"`
-	Avatar         types.String `tfsdk:"avatar"`
-	CreatedAt      types.String `tfsdk:"created_at"`
-	IsBlueVerified types.Bool   `tfsdk:"is_blue_verified"`
+	ScreenName           types.String `tfsdk:"screen_name"`
+	UserID               types.String `tfsdk:"user_id"`
+	Name                 types.String `tfsdk:"name"`
+	Avatar               types.String `tfsdk:"avatar"`
+	CreatedAt            types.String `tfsdk:"created_at"`
+	IsBlueVerified       types.Bool   `tfsdk:"is_blue_verified"`
+	Verification         types.Bool   `tfsdk:"verification"`
+	AccountBasedIn       types.String `tfsdk:"account_based_in"`
+	AffiliateUsername    types.String `tfsdk:"affiliate_username"`
+	UsernameChangesCount types.Int64  `tfsdk:"username_changes_count"`
 }
 
 func NewUserAboutDataSource() datasource.DataSource {
@@ -35,17 +39,21 @@ func (d *userAboutDataSource) Metadata(_ context.Context, req datasource.Metadat
 
 func (d *userAboutDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Read an X profile by screen name via `GET /twitter/{screen_name}/about`.",
+		MarkdownDescription: "Read an X profile by screen name via `GET /twitter/{screen_name}/about`. Maps to the competitor `x_user` data source.",
 		Attributes: map[string]schema.Attribute{
 			"screen_name": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: "X/Twitter screen name without `@`.",
 			},
-			"user_id":          schema.StringAttribute{Computed: true},
-			"name":             schema.StringAttribute{Computed: true},
-			"avatar":           schema.StringAttribute{Computed: true},
-			"created_at":       schema.StringAttribute{Computed: true},
-			"is_blue_verified": schema.BoolAttribute{Computed: true},
+			"user_id":                schema.StringAttribute{Computed: true},
+			"name":                   schema.StringAttribute{Computed: true},
+			"avatar":                 schema.StringAttribute{Computed: true},
+			"created_at":             schema.StringAttribute{Computed: true},
+			"is_blue_verified":       schema.BoolAttribute{Computed: true},
+			"verification":           schema.BoolAttribute{Computed: true},
+			"account_based_in":       schema.StringAttribute{Computed: true},
+			"affiliate_username":     schema.StringAttribute{Computed: true},
+			"username_changes_count": schema.Int64Attribute{Computed: true},
 		},
 	}
 }
@@ -91,5 +99,9 @@ func (d *userAboutDataSource) Read(ctx context.Context, req datasource.ReadReque
 	data.Avatar = types.StringValue(about.Avatar)
 	data.CreatedAt = types.StringValue(about.CreatedAt)
 	data.IsBlueVerified = types.BoolValue(about.IsBlueVerified)
+	data.Verification = types.BoolValue(about.Verification)
+	data.AccountBasedIn = types.StringValue(about.AccountBasedIn)
+	data.AffiliateUsername = types.StringValue(about.AffiliateUsername)
+	data.UsernameChangesCount = types.Int64Value(about.UsernameChangesCount)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

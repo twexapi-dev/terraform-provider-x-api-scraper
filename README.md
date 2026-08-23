@@ -1,20 +1,22 @@
 # TwexAPI Terraform Provider: Twitter API for search, followers, DMs & X automation
 
-Use the TwexAPI Terraform provider to read X profiles and account balance, follow accounts, and post tweets.
+Use the TwexAPI Terraform provider to read X profiles and tweets, follow accounts, and post, like, retweet, or bookmark.
 It wraps the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go). Search, timelines, DMs, communities, and other reads stay on the REST API or language SDKs.
 
 [REST API](https://docs.twexapi.io) | [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go) | [TypeScript SDK](https://github.com/twexapi-dev/x-api-scraper-typescript) | [Dashboard](https://twexapi.io/dashboard)
 
-This provider is a thin Terraform Plugin Framework wrapper. Speakeasy does not generate Terraform on the current TwexAPI workspace plan.
+This provider is a thin Terraform Plugin Framework wrapper over the Go SDK, the same approach as the competitor provider.
 
 ## Common Twitter & X tasks
 
 | Task                            | REST Route                          | Terraform                                          |
 | ------------------------------- | ----------------------------------- | -------------------------------------------------- |
 | Read an X profile               | `GET /twitter/{screen_name}/about`  | `data.x-api-scraper_user_about`                    |
+| Read a tweet                    | `POST /twitter/tweets/lookup`       | `data.x-api-scraper_tweet`                         |
 | Read TwexAPI account balance    | `GET /balance`                      | `data.x-api-scraper_account`                       |
 | Follow an account               | `POST /twitter/user/follow`         | `x-api-scraper_follow`                             |
 | Post or reply                   | `POST /twitter/tweets/create`       | `x-api-scraper_tweet`                              |
+| Like / retweet / bookmark       | tweet action routes                 | `x-api-scraper_like`, `_retweet`, `_bookmark`      |
 | Search tweets without the X API | `POST /twitter/advanced_search/page` | Use the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go) |
 
 ## Package & registry trust
@@ -25,6 +27,7 @@ This provider is a thin Terraform Plugin Framework wrapper. Speakeasy does not g
 - Docs: [docs.twexapi.io](https://docs.twexapi.io)
 - License: MIT
 - Dashboard: [twexapi.io/dashboard](https://twexapi.io/dashboard)
+- Release signing key: [`gpg-public.asc`](./gpg-public.asc)
 
 ## Install
 
@@ -106,5 +109,16 @@ resource "x-api-scraper_tweet" "announcement" {
 ```
 
 Changing `tweet_content` replaces the resource. Destroy deletes the tweet.
+
+## Like, retweet, or bookmark
+
+```hcl
+resource "x-api-scraper_like" "example" {
+  tweet_id = data.x-api-scraper_tweet.example.tweet_id
+  cookie   = var.twitter_cookie
+}
+```
+
+Destroy reverses the action.
 
 Not affiliated with X Corp.

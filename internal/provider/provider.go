@@ -79,6 +79,9 @@ func (p *XapiScraperProvider) Resources(_ context.Context) []func() resource.Res
 	return []func() resource.Resource{
 		NewFollowResource,
 		NewTweetResource,
+		NewLikeResource,
+		NewRetweetResource,
+		NewBookmarkResource,
 	}
 }
 
@@ -86,6 +89,7 @@ func (p *XapiScraperProvider) DataSources(_ context.Context) []func() datasource
 	return []func() datasource.DataSource{
 		NewUserAboutDataSource,
 		NewAccountDataSource,
+		NewTweetDataSource,
 	}
 }
 

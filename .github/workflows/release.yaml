@@ -23,6 +23,7 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.TERRAFORM_GPG_SECRET_KEY }}
           passphrase: ${{ secrets.TERRAFORM_GPG_PASSPHRASE }}
+          git_user_signingkey: false
       - uses: goreleaser/goreleaser-action@v6
         with:
           args: release --clean

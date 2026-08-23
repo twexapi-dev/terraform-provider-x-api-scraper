@@ -5,7 +5,7 @@ description: Terraform provider for TwexAPI Twitter search, followers, DMs, and 
 
 # TwexAPI Provider
 
-Manage a small set of TwexAPI reads and writes as Terraform resources. Use a language SDK for search and pagination.
+Manage TwexAPI reads and writes as Terraform data sources and resources. It wraps the Go SDK. Search and pagination stay on the language SDKs.
 
 ## Example Usage
 

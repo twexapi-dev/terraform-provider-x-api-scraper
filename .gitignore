@@ -8,6 +8,7 @@ crash.log
 .DS_Store
 .env
 .env.local
+.secrets/
 **/.speakeasy/temp/
 **/.speakeasy/logs/
 .speakeasy/reports
