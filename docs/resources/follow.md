@@ -6,21 +6,13 @@ page_title: "x-api-scraper_follow Resource"
 
 Follow an X account. Destroy unfollows.
 
-## Example Usage
-
-```hcl
-resource "x-api-scraper_follow" "example" {
-  username = "elonmusk"
-  cookie   = var.twitter_cookie
-}
-```
+> **Note:** Public getting-started docs focus on API-key read data sources. This resource requires account session credentials and is not covered in the public getting started guide.
 
 ## Schema
 
 ### Required
 
 - `username` (String) Screen name to follow, without `@`.
-- `cookie` (String, Sensitive) Twitter cookie or `auth_token`.
 
 ### Read-Only
 

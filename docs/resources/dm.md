@@ -4,17 +4,9 @@ page_title: "x-api-scraper_dm Resource"
 
 # x-api-scraper_dm
 
-Send a DM via `POST /v3/twitter/send-dm`. Destroy removes Terraform state only; the API cannot unsend.
+Destroy removes Terraform state only; the API cannot unsend.
 
-## Example Usage
-
-```hcl
-resource "x-api-scraper_dm" "hello" {
-  recipient = "elonmusk"
-  text      = "hello from Terraform"
-  cookie    = var.twitter_cookie
-}
-```
+> **Note:** Public getting-started docs focus on API-key read data sources. This resource requires account session credentials and is not covered in the public getting started guide.
 
 ## Schema
 
@@ -22,7 +14,6 @@ resource "x-api-scraper_dm" "hello" {
 
 - `recipient` (String) User id, `@handle`, or an existing group id (`g...`).
 - `text` (String) Message body.
-- `cookie` (String, Sensitive) Twitter cookie or `auth_token`.
 
 ### Optional
 

@@ -6,21 +6,13 @@ page_title: "x-api-scraper_bookmark Resource"
 
 Bookmark a tweet. Destroy removes the bookmark.
 
-## Example Usage
-
-```hcl
-resource "x-api-scraper_bookmark" "example" {
-  tweet_id = "20"
-  cookie   = var.twitter_cookie
-}
-```
+> **Note:** Public getting-started docs focus on API-key read data sources. This resource requires account session credentials and is not covered in the public getting started guide.
 
 ## Schema
 
 ### Required
 
 - `tweet_id` (String)
-- `cookie` (String, Sensitive)
 
 ### Read-Only
 

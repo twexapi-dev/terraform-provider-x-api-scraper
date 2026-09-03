@@ -6,15 +6,7 @@ page_title: "x-api-scraper_tweet Resource"
 
 Post a tweet. Destroy deletes that tweet.
 
-## Example Usage
-
-```hcl
-resource "x-api-scraper_tweet" "announcement" {
-  username      = "example"
-  cookie        = var.twitter_cookie
-  tweet_content = "Published through the TwexAPI Terraform provider."
-}
-```
+> **Note:** Public getting-started docs focus on API-key read data sources. This resource requires account session credentials and is not covered in the public getting started guide.
 
 ## Schema
 
@@ -22,7 +14,6 @@ resource "x-api-scraper_tweet" "announcement" {
 
 - `tweet_content` (String)
 - `username` (String) Acting account username, used when deleting.
-- `cookie` (String, Sensitive) Twitter cookie or `auth_token`.
 
 ### Optional
 

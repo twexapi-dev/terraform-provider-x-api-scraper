@@ -1,11 +1,13 @@
-# TwexAPI Terraform Provider: Twitter API for search, followers, DMs & X automation
+# TwexAPI Terraform Provider: read X profiles and tweets
 
-Use the TwexAPI Terraform provider to read X profiles and tweets, follow accounts, send DMs, and post, like, retweet, or bookmark.
-It wraps the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go). Search, timelines, communities, and other reads stay on the REST API or language SDKs.
+Use the TwexAPI Terraform provider to look up X profiles, tweets, and TwexAPI account balance with an API key.
+It wraps the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go). Search, timelines, communities, and other reads also stay available on the REST API or language SDKs.
+
+Public getting-started docs focus on API-key read data sources. Account-session write resources are not covered here.
 
 [REST API](https://docs.twexapi.io) | [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go) | [TypeScript SDK](https://github.com/twexapi-dev/x-api-scraper-typescript) | [Dashboard](https://twexapi.io/dashboard)
 
-This provider is a thin Terraform Plugin Framework wrapper over the Go SDK, the same approach as the competitor provider.
+This provider is a thin Terraform Plugin Framework wrapper over the Go SDK.
 
 ## Common Twitter & X tasks
 
@@ -14,10 +16,6 @@ This provider is a thin Terraform Plugin Framework wrapper over the Go SDK, the 
 | Read an X profile               | `GET /twitter/{screen_name}/about`  | `data.x-api-scraper_user_about`                    |
 | Read a tweet                    | `POST /twitter/tweets/lookup`       | `data.x-api-scraper_tweet`                         |
 | Read TwexAPI account balance    | `GET /balance`                      | `data.x-api-scraper_account`                       |
-| Follow an account               | `POST /twitter/user/follow`         | `x-api-scraper_follow`                             |
-| Post or reply                   | `POST /twitter/tweets/create`       | `x-api-scraper_tweet`                              |
-| Like / retweet / bookmark       | tweet action routes                 | `x-api-scraper_like`, `_retweet`, `_bookmark`      |
-| Send a DM                       | `POST /v3/twitter/send-dm`          | `x-api-scraper_dm`                                 |
 | Search tweets without the X API | `POST /twitter/advanced_search/page` | Use the [Go SDK](https://github.com/twexapi-dev/x-api-scraper-go) |
 
 ## Package & registry trust
@@ -74,7 +72,7 @@ Prefer environment variables:
 export X_API_SCRAPER_KEY="your-api-key"
 ```
 
-Or set `bearer_auth` on the provider. Write resources also need a Twitter cookie or `auth_token`.
+Or set `bearer_auth` on the provider.
 
 Never commit credentials or Terraform state.
 
@@ -90,48 +88,22 @@ output "user_id" {
 }
 ```
 
-## Follow an account
+## Read a tweet
 
 ```hcl
-resource "x-api-scraper_follow" "example" {
-  username = "elonmusk"
-  cookie   = var.twitter_cookie
+data "x-api-scraper_tweet" "example" {
+  tweet_id = "20"
+}
+
+output "tweet_text" {
+  value = data.x-api-scraper_tweet.example.text
 }
 ```
 
-## Post a tweet
+## Read account balance
 
 ```hcl
-resource "x-api-scraper_tweet" "announcement" {
-  username      = "example"
-  cookie        = var.twitter_cookie
-  tweet_content = "Published through the TwexAPI Terraform provider."
-}
+data "x-api-scraper_account" "me" {}
 ```
-
-Changing `tweet_content` replaces the resource. Destroy deletes the tweet.
-
-## Like, retweet, or bookmark
-
-```hcl
-resource "x-api-scraper_like" "example" {
-  tweet_id = data.x-api-scraper_tweet.example.tweet_id
-  cookie   = var.twitter_cookie
-}
-```
-
-Destroy reverses the action.
-
-## Send a DM
-
-```hcl
-resource "x-api-scraper_dm" "hello" {
-  recipient = "elonmusk"
-  text      = "hello from Terraform"
-  cookie    = var.twitter_cookie
-}
-```
-
-Destroy removes Terraform state only. The API cannot unsend a DM.
 
 Not affiliated with X Corp.
